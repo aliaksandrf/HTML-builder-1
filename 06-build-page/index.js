@@ -86,3 +86,33 @@ function copyAssets(pathFunction, pathPurpose) {
 }) */
 
 
+
+//create styles files
+
+const stylesSource = path.join(__dirname, 'styles');
+const styles = path.join(pathDir, 'styles.css');
+
+fs.writeFile(styles, '', (err) => {
+  if(err) console.log(err);
+})
+
+fs.readdir(stylesSource, (err, files) => {
+  if(err) console.log(err);
+
+  files.forEach(item => {
+    console.log(item);
+    const pathFile = path.join(stylesSource, item);
+    fs.readFile(pathFile, (err, content) => {
+      if(err) console.log(err);
+      fs.appendFile(styles, content, (err) => {
+        if(err) console.log(err);
+      })
+    })
+  })
+
+})
+
+
+
+
+
