@@ -92,9 +92,18 @@ function copyAssets(pathFunction, pathPurpose) {
 const stylesSource = path.join(__dirname, 'styles');
 const styles = path.join(pathDir, 'styles.css');
 
-fs.writeFile(styles, '', (err) => {
-  if(err) console.log(err);
-})
+fs.stat(styles, (err) => {
+  if(err) {
+    fs.writeFile(styles, '', (err) => {
+      if(err) console.log(err);
+    })
+  }
+});
+
+
+
+
+
 
 fs.readdir(stylesSource, (err, files) => {
   if(err) console.log(err);
@@ -110,6 +119,16 @@ fs.readdir(stylesSource, (err, files) => {
     })
   })
 
+})
+
+
+//read template
+const templateFile = path.join(__dirname, 'template.html');
+let templateContent;
+
+fs.readFile(templateFile, 'utf-8', (err, content) => {
+  if(err) console.log(err);
+  templateContent = content;
 })
 
 
