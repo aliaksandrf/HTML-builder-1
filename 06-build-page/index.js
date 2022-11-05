@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { readFile, readdir, writeFile } = require('fs').promises;
 
 const pathDir = path.join(__dirname, 'project-dist');
 
@@ -90,7 +91,7 @@ function copyAssets(pathFunction, pathPurpose) {
 //create styles files
 
 const stylesSource = path.join(__dirname, 'styles');
-const styles = path.join(pathDir, 'styles.css');
+const styles = path.join(pathDir, 'style.css');
 
 fs.stat(styles, (err) => {
   if(err) {
@@ -109,7 +110,7 @@ fs.readdir(stylesSource, (err, files) => {
   if(err) console.log(err);
 
   files.forEach(item => {
-    console.log(item);
+/*     console.log(item); */
     const pathFile = path.join(stylesSource, item);
     fs.readFile(pathFile, (err, content) => {
       if(err) console.log(err);
@@ -123,13 +124,75 @@ fs.readdir(stylesSource, (err, files) => {
 
 
 //read template
-const templateFile = path.join(__dirname, 'template.html');
-let templateContent;
 
+
+
+
+async function createHtmlTemplate() {
+  const templateFile = path.join(__dirname, 'template.html');
+  const purposeFile = path.join(__dirname, 'project-dist', 'index.html');
+  const componentsPath = path.join(__dirname, 'components');
+
+/*   console.log(templateFile); */
+  let htmlCode = await readFile(templateFile, 'utf-8');
+/*   console.log(htmlCode); */
+
+  const componentsFiles = await readdir(componentsPath, { withFileTypes: true });
+/*   console.log(componentsFiles); */
+
+  for(let file of componentsFiles) {
+    const pathFile = path.join(componentsPath, file.name);
+  /*   console.log(pathFile); */
+    const contentFile = await readFile(pathFile, 'utf-8');
+/*     console.log(contentFile); */
+ const regularExpr = file.name.replace(/\.[^/.]+$/, "");
+
+ htmlCode = htmlCode.replace(`{{${regularExpr}}}`, contentFile);
+ 
+  }
+
+  await writeFile(purposeFile, htmlCode);
+
+
+
+
+}
+
+
+
+(async () => {
+  createHtmlTemplate();
+})();
+
+
+
+/* 
 fs.readFile(templateFile, 'utf-8', (err, content) => {
   if(err) console.log(err);
   templateContent = content;
-})
+  addText(content);
+
+
+    fs.readdir(componentsPath, (err, files) => {
+      if(err) console.log(err);
+      files.forEach(item => {
+
+        const localPath = path.join(componentsPath, item);
+        fs.readFile(localPath, "utf8", function(err,data){
+          if(err) console.log(err);
+
+          replaceText(`{{${path.parse(item).name}}}}`, data);
+        });
+      })
+    })
+});
+
+function addText(newText) {
+  templateContent = newText;
+}
+function replaceText (oldText, newText) {
+} */
+ 
 
 
 
