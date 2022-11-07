@@ -145,10 +145,9 @@ async function createHtmlTemplate() {
   /*   console.log(pathFile); */
     const contentFile = await readFile(pathFile, 'utf-8');
 /*     console.log(contentFile); */
- const regularExpr = file.name.replace(/\.[^/.]+$/, "");
+  const regularExpr = file.name.replace(/\.[^/.]+$/, "");
 
- htmlCode = htmlCode.replace(`{{${regularExpr}}}`, contentFile);
- 
+  htmlCode = htmlCode.replace(`{{${regularExpr}}}`, contentFile);
   }
 
   await writeFile(purposeFile, htmlCode);
