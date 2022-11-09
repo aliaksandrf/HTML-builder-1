@@ -11,7 +11,7 @@ fs.readdir(secretFolder, {withFileTypes: true}, (err, files) => {
       const pathFile = path.join(secretFolder, item.name);
       fs.stat(pathFile, (err, stats) => {
         if(err) console.log(err);
-        console.log(`${path.parse(pathFile).name} - ${path.extname(pathFile).slice(1)} - ${stats.size / 1000} kb`);
+        console.log(`${path.parse(pathFile).name} - ${path.extname(pathFile).slice(1)} - ${stats.size / 1024} kb`);
       })
     }
   })
