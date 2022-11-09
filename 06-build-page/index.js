@@ -98,6 +98,11 @@ fs.stat(styles, (err) => {
     fs.writeFile(styles, '', (err) => {
       if(err) console.log(err);
     })
+  } else {
+    fs.writeFile(styles, '', (err) => {
+      if(err) console.log(err);
+    })
+
   }
 });
 
