@@ -16,4 +16,11 @@ stdin.on('data', data => {
   stream.write(data);
 });
 
-process.on('exit', () => console.log("File has been created")); 
+process.on('exit', () => console.log("File has been created. Good bye"));
+process.on('SIGINT', () => {
+/*   console.log("File has been created. Good bye"); */
+  exit();
+});
+
+
+
